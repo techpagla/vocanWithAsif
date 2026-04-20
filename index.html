@@ -556,7 +556,7 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.07);
   }
   .collocation-item .col-phrase { color: #111111; font-weight: 600; }
-  .collocation-item .col-bn { font-family:'Noto Sans Bengali'; color: black; font-size:0.97rem; margin-top:2px; }
+  .collocation-item .col-bn { font-family:'Noto Sans Bengali'; color: #444444; font-size:0.8rem; margin-top:2px; }
 
   .sentence-item {
     border-left: 2px solid var(--accent2);
@@ -565,8 +565,8 @@
     background: rgba(124,106,255,0.04);
     border-radius: 0 8px 8px 0;
   }
-  .sentence-item .s-en { color:var(--text); line-height:1.5; font-size:0.99rem; }
-  .sentence-item .s-bn { font-family:'Noto Sans Bengali'; color:var(--muted); font-size:0.95rem; margin-top:3px; line-height:1.5; }
+  .sentence-item .s-en { color:var(--text); line-height:1.5; font-size:0.9rem; }
+  .sentence-item .s-bn { font-family:'Noto Sans Bengali'; color:var(--muted); font-size:0.7rem; margin-top:3px; line-height:1.5; }
 
   .news-item {
     border-left:2px solid var(--accent);
@@ -574,8 +574,8 @@
     margin-bottom: 8px;
     font-size:0.82rem;
   }
-  .news-item .s-en { color:var(--text); line-height:1.4;     font-size: 0.99rem; font-style:italic; }
-  .news-item .s-bn { font-family:'Noto Sans Bengali'; color:var(--muted); font-size:0.95rem; margin-top:3px; }
+  .news-item .s-en { color:var(--text); line-height:1.4; font-style:italic; }
+  .news-item .s-bn { font-family:'Noto Sans Bengali'; color:var(--muted); font-size:0.78rem; margin-top:3px; }
 
   .fun-box {
     background: linear-gradient(135deg, rgba(124,106,255,0.15), rgba(232,184,109,0.1));
@@ -1223,6 +1223,69 @@
   .img-src-opt.selected .img-src-check {
     background: var(--accent2); border-color: var(--accent2); color: #fff;
   }
+
+  /* ── EXAM OVERLAY ────────────────────────────────────────── */
+  #exam-overlay { display:none; }
+  #exam-overlay.open { display:flex !important; }
+
+  .exam-level-btn { transition:all 0.2s; }
+  .exam-level-btn.active {
+    border-color:var(--accent2) !important;
+    background:rgba(124,106,255,0.15) !important;
+  }
+
+  .exam-q-btn {
+    background:var(--soft); border:1.5px solid var(--border);
+    color:var(--muted); border-radius:22px; padding:7px 18px;
+    font-family:var(--body-font); font-size:0.82rem; font-weight:600;
+    cursor:pointer; transition:all 0.2s;
+  }
+  .exam-q-btn.active {
+    background:var(--accent2); border-color:var(--accent2); color:#fff;
+  }
+
+  /* Option buttons */
+  .exam-option {
+    background:var(--surface); border:2px solid var(--border);
+    border-radius:14px; padding:14px 16px;
+    font-family:var(--body-font); font-size:0.88rem; color:var(--text);
+    cursor:pointer; text-align:left; width:100%;
+    display:flex; align-items:center; gap:12px;
+    transition:all 0.18s; position:relative; overflow:hidden;
+  }
+  .exam-option:hover { border-color:var(--accent2); background:rgba(124,106,255,0.06); }
+  .exam-option .opt-letter {
+    width:28px; height:28px; border-radius:50%;
+    background:var(--soft); border:1.5px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.72rem; font-weight:700; flex-shrink:0;
+    transition:all 0.18s;
+  }
+  .exam-option .opt-text { flex:1; line-height:1.4; }
+
+  /* Selected state */
+  .exam-option.selected { border-color:var(--accent2); background:rgba(124,106,255,0.08); }
+  .exam-option.selected .opt-letter { background:var(--accent2); border-color:var(--accent2); color:#fff; }
+
+  /* Correct/wrong reveal after answering */
+  .exam-option.correct { border-color:var(--green) !important; background:rgba(107,255,184,0.1) !important; }
+  .exam-option.correct .opt-letter { background:var(--green) !important; border-color:var(--green) !important; color:#fff !important; }
+  .exam-option.wrong { border-color:var(--accent3) !important; background:rgba(255,107,107,0.08) !important; }
+  .exam-option.wrong .opt-letter { background:var(--accent3) !important; border-color:var(--accent3) !important; color:#fff !important; }
+  .exam-option.disabled { cursor:default; opacity:0.7; }
+
+  /* Review card */
+  .review-card {
+    border-radius:14px; padding:14px 16px;
+    border:1.5px solid var(--border);
+  }
+  .review-card.correct-card { border-color:rgba(107,255,184,0.4); background:rgba(107,255,184,0.05); }
+  .review-card.wrong-card { border-color:rgba(255,107,107,0.3); background:rgba(255,107,107,0.05); }
+
+  /* Timer warning */
+  .timer-warning { color:var(--accent3) !important; animation:pulse 1s ease-in-out infinite alternate; }
+  @keyframes pulse { from{opacity:1} to{opacity:0.5} }
+
 </style>
 </head>
 <body>
@@ -1244,6 +1307,10 @@
     <button class="nav-btn" id="btn-flash2" onclick="showView('flash2')"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" style="flex-shrink:0"><path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"/></svg> L2</button>
     <button class="nav-btn" id="btn-dayplan" onclick="showView('dayplan')"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" style="flex-shrink:0"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg> Plan</button>
     <button class="nav-btn" id="btn-favs" onclick="showView('favs')"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" style="flex-shrink:0"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg> Saved <span class="fav-count" id="fav-count">0</span></button>
+    <button class="nav-btn" id="btn-exam" onclick="openExam()" style="background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;font-weight:600;">
+      <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" style="flex-shrink:0"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
+      Exam
+    </button>
   </div>
 </nav>
 
@@ -1801,6 +1868,183 @@
 
 </div>
 
+
+<!-- ═══════════════════════════════════════════════════════════
+     EXAM OVERLAY — Full-screen MCQ Exam
+     ═══════════════════════════════════════════════════════════ -->
+<div id="exam-overlay" style="position:fixed;inset:0;background:var(--bg);z-index:300;overflow-y:auto;flex-direction:column;">
+  <div style="max-width:520px;margin:0 auto;width:100%;padding:0 0 40px;">
+
+    <!-- ── SETUP SCREEN ─────────────────────────────────────── -->
+    <div id="exam-setup">
+      <div style="padding:20px 20px 0;padding-top:calc(env(safe-area-inset-top) + 20px);">
+        <!-- Header -->
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+          <button onclick="closeExam()" style="background:var(--soft);border:none;color:var(--text);width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </button>
+          <div>
+            <div style="font-family:var(--display-font,'Playfair Display',serif);font-size:1.4rem;color:var(--text);font-weight:700;">MCQ Exam</div>
+            <div style="font-size:0.72rem;color:var(--muted);">Test your vocabulary knowledge</div>
+          </div>
+        </div>
+
+        <!-- Level selector -->
+        <div style="margin-bottom:18px;">
+          <div style="font-size:0.7rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Vocabulary Level</div>
+          <div style="display:flex;gap:8px;">
+            <button class="exam-level-btn active" data-level="1" onclick="setExamLevel(1)" style="flex:1;padding:10px;border-radius:12px;border:1.5px solid var(--accent2);background:rgba(124,106,255,0.12);color:var(--text);font-family:var(--body-font);font-size:0.82rem;cursor:pointer;font-weight:600;">
+              Level 1 <span style="display:block;font-size:0.65rem;font-weight:400;color:var(--muted);margin-top:2px;">60 words</span>
+            </button>
+            <button class="exam-level-btn" data-level="2" onclick="setExamLevel(2)" style="flex:1;padding:10px;border-radius:12px;border:1.5px solid var(--border);background:var(--soft);color:var(--text);font-family:var(--body-font);font-size:0.82rem;cursor:pointer;font-weight:600;">
+              Level 2 <span style="display:block;font-size:0.65rem;font-weight:400;color:var(--muted);margin-top:2px;">14 words</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Word range -->
+        <div style="margin-bottom:18px;">
+          <div style="font-size:0.7rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Word Range</div>
+          <div style="display:flex;align-items:center;gap:10px;background:var(--soft);border-radius:12px;padding:12px 14px;">
+            <div style="text-align:center;flex:1;">
+              <div style="font-size:0.65rem;color:var(--muted);margin-bottom:4px;">From</div>
+              <input type="number" id="exam-range-from" value="1" min="1"
+                style="width:100%;background:transparent;border:none;color:var(--text);font-size:1.1rem;font-weight:700;text-align:center;font-family:var(--body-font);outline:none;"
+                oninput="validateExamRange()">
+            </div>
+            <div style="color:var(--muted);font-size:1.2rem;">—</div>
+            <div style="text-align:center;flex:1;">
+              <div style="font-size:0.65rem;color:var(--muted);margin-bottom:4px;">To</div>
+              <input type="number" id="exam-range-to" value="60" min="1"
+                style="width:100%;background:transparent;border:none;color:var(--text);font-size:1.1rem;font-weight:700;text-align:center;font-family:var(--body-font);outline:none;"
+                oninput="validateExamRange()">
+            </div>
+          </div>
+          <div id="exam-range-info" style="font-size:0.7rem;color:var(--accent2);margin-top:5px;text-align:center;"></div>
+        </div>
+
+        <!-- Number of questions -->
+        <div style="margin-bottom:18px;">
+          <div style="font-size:0.7rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Number of Questions</div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap;">
+            <button class="exam-q-btn" data-q="5" onclick="setExamQCount(5)">5</button>
+            <button class="exam-q-btn active" data-q="10" onclick="setExamQCount(10)">10</button>
+            <button class="exam-q-btn" data-q="15" onclick="setExamQCount(15)">15</button>
+            <button class="exam-q-btn" data-q="20" onclick="setExamQCount(20)">20</button>
+            <button class="exam-q-btn" data-q="30" onclick="setExamQCount(30)">30</button>
+          </div>
+        </div>
+
+        <!-- Exam summary card -->
+        <div id="exam-summary-card" style="background:linear-gradient(135deg,rgba(124,106,255,0.1),rgba(232,184,109,0.07));border:1px solid rgba(124,106,255,0.2);border-radius:14px;padding:14px 16px;margin-bottom:22px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center;">
+            <div>
+              <div style="font-size:1.1rem;font-weight:700;color:var(--accent2);" id="exam-sum-q">10</div>
+              <div style="font-size:0.62rem;color:var(--muted);">Questions</div>
+            </div>
+            <div>
+              <div style="font-size:1.1rem;font-weight:700;color:var(--accent);" id="exam-sum-time">10 min</div>
+              <div style="font-size:0.62rem;color:var(--muted);">Time Limit</div>
+            </div>
+            <div>
+              <div style="font-size:1.1rem;font-weight:700;color:var(--green);" id="exam-sum-pass">7/10</div>
+              <div style="font-size:0.62rem;color:var(--muted);">Pass Mark</div>
+            </div>
+          </div>
+          <div style="margin-top:10px;font-size:0.68rem;color:var(--muted);text-align:center;line-height:1.5;" id="exam-sum-mix">
+            70% Bangla meaning · 10% English · 10% Similar · 10% Opposite
+          </div>
+        </div>
+
+        <!-- Start button -->
+        <button onclick="startExam()" id="exam-start-btn"
+          style="width:100%;background:linear-gradient(135deg,var(--accent2),var(--accent));border:none;color:#fff;border-radius:16px;padding:16px;font-family:var(--body-font);font-size:1rem;font-weight:700;cursor:pointer;letter-spacing:0.5px;box-shadow:0 4px 20px rgba(124,106,255,0.35);">
+          Start Exam
+          <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" style="vertical-align:middle;margin-left:6px;"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── QUIZ SCREEN ─────────────────────────────────────── -->
+    <div id="exam-quiz" style="display:none;">
+      <!-- Top bar -->
+      <div style="position:sticky;top:0;background:var(--bg);padding:14px 20px 10px;padding-top:calc(env(safe-area-inset-top) + 14px);border-bottom:1px solid var(--border);z-index:10;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <div style="font-size:0.78rem;color:var(--muted);">Question <span id="exam-q-cur" style="color:var(--text);font-weight:700;">1</span> of <span id="exam-q-total" style="color:var(--text);font-weight:700;">10</span></div>
+          <div style="display:flex;align-items:center;gap:6px;background:rgba(255,107,107,0.1);padding:4px 10px;border-radius:20px;">
+            <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" style="color:var(--accent3);"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+            <span id="exam-timer" style="font-size:0.78rem;font-weight:700;color:var(--accent3);">10:00</span>
+          </div>
+          <button onclick="confirmExitExam()" style="background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:0.75rem;padding:4px 8px;border-radius:8px;">Exit</button>
+        </div>
+        <!-- Progress bar -->
+        <div style="height:4px;background:var(--soft);border-radius:10px;overflow:hidden;">
+          <div id="exam-progress-bar" style="height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:10px;transition:width 0.3s;width:0%"></div>
+        </div>
+      </div>
+
+      <!-- Question area -->
+      <div style="padding:20px;">
+        <div id="exam-q-type-badge" style="display:inline-block;font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:12px;"></div>
+        <div id="exam-question" style="font-family:var(--display-font,'Playfair Display',serif);font-size:1.25rem;color:var(--text);line-height:1.4;margin-bottom:6px;font-weight:700;"></div>
+        <div id="exam-question-bn" style="font-family:'Noto Sans Bengali',sans-serif;font-size:0.85rem;color:var(--muted);margin-bottom:22px;"></div>
+        <!-- Options -->
+        <div id="exam-options" style="display:flex;flex-direction:column;gap:10px;"></div>
+        <!-- Next button (shown after answer) -->
+        <div id="exam-next-row" style="display:none;margin-top:18px;">
+          <div id="exam-feedback" style="font-size:0.82rem;padding:10px 14px;border-radius:10px;margin-bottom:12px;line-height:1.5;"></div>
+          <button onclick="nextExamQuestion()" id="exam-next-btn"
+            style="width:100%;background:var(--accent2);border:none;color:#fff;border-radius:12px;padding:13px;font-family:var(--body-font);font-size:0.88rem;font-weight:600;cursor:pointer;">
+            Next Question →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RESULTS SCREEN ──────────────────────────────────── -->
+    <div id="exam-results" style="display:none;padding:20px;padding-top:calc(env(safe-area-inset-top) + 20px);">
+      <!-- Score hero -->
+      <div style="text-align:center;padding:24px 0 20px;">
+        <div id="exam-score-emoji" style="font-size:3.5rem;display:block;margin-bottom:10px;"></div>
+        <div style="font-family:var(--display-font,'Playfair Display',serif);font-size:2rem;font-weight:700;color:var(--text);" id="exam-score-display"></div>
+        <div style="font-size:0.82rem;color:var(--muted);margin-top:4px;" id="exam-score-label"></div>
+      </div>
+      <!-- Stats row -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;">
+        <div style="background:rgba(107,255,184,0.1);border:1px solid rgba(107,255,184,0.2);border-radius:12px;padding:10px;text-align:center;">
+          <div style="font-size:1.1rem;font-weight:700;color:var(--green);" id="res-correct">0</div>
+          <div style="font-size:0.6rem;color:var(--muted);">Correct</div>
+        </div>
+        <div style="background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.2);border-radius:12px;padding:10px;text-align:center;">
+          <div style="font-size:1.1rem;font-weight:700;color:var(--accent3);" id="res-wrong">0</div>
+          <div style="font-size:0.6rem;color:var(--muted);">Wrong</div>
+        </div>
+        <div style="background:rgba(232,184,109,0.1);border:1px solid rgba(232,184,109,0.2);border-radius:12px;padding:10px;text-align:center;">
+          <div style="font-size:1.1rem;font-weight:700;color:var(--accent);" id="res-pct">0%</div>
+          <div style="font-size:0.6rem;color:var(--muted);">Score</div>
+        </div>
+        <div style="background:rgba(124,106,255,0.1);border:1px solid rgba(124,106,255,0.2);border-radius:12px;padding:10px;text-align:center;">
+          <div style="font-size:1.1rem;font-weight:700;color:var(--accent2);" id="res-time">0:00</div>
+          <div style="font-size:0.6rem;color:var(--muted);">Time</div>
+        </div>
+      </div>
+      <!-- Retry / Close -->
+      <div style="display:flex;gap:8px;margin-bottom:20px;">
+        <button onclick="retryExam()" style="flex:1;background:var(--accent2);border:none;color:#fff;border-radius:12px;padding:12px;font-family:var(--body-font);font-size:0.85rem;font-weight:600;cursor:pointer;">
+          Retry Exam
+        </button>
+        <button onclick="closeExam()" style="flex:1;background:var(--soft);border:1px solid var(--border);color:var(--text);border-radius:12px;padding:12px;font-family:var(--body-font);font-size:0.85rem;cursor:pointer;">
+          Close
+        </button>
+      </div>
+      <!-- Answer review -->
+      <div style="font-size:0.7rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">Review Answers</div>
+      <div id="exam-review-list" style="display:flex;flex-direction:column;gap:10px;"></div>
+    </div>
+
+  </div>
+</div>
+
 <!-- SEARCH MODAL -->
 <div class="modal-overlay" id="search-modal" onclick="handleModalClick(event)">
   <div class="modal-box">
@@ -1822,9 +2066,6 @@
 //  VOCABULARY DATABASE — add/edit words here freely
 // ============================================================
 const VOCAB = [
-  
-
-
 
 
 
@@ -5583,18 +5824,7 @@ const VOCAB = [
 
 
 
-
-
-
-
-
-
-
 ];
-
-
-
-
 
 // ============================================================
 //  LEVEL 2 — HARD WORDS DATABASE
@@ -7625,6 +7855,396 @@ function initTheme() {
   document.querySelectorAll('.card-style-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.card === currentCardStyle);
   });
+}
+
+
+// ============================================================
+//  MCQ EXAM SYSTEM
+// ============================================================
+
+let examLevel     = 1;       // 1 or 2
+let examQCount    = 10;      // number of questions
+let examRangeFrom = 1;       // 1-based
+let examRangeTo   = 60;
+let examQuestions = [];      // generated question objects
+let examAnswers   = [];      // user selected option index per Q
+let examCurQ      = 0;       // current question index
+let examTimerSec  = 0;       // total seconds
+let examTimerLeft = 0;       // seconds remaining
+let examTimerID   = null;
+let examStartTime = 0;
+
+// ── SETUP ──────────────────────────────────────────────────
+function openExam() {
+  const overlay = document.getElementById('exam-overlay');
+  overlay.style.display = 'flex';
+  overlay.style.flexDirection = 'column';
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  showExamScreen('setup');
+  examLevel = 1;
+  examQCount = 10;
+  examRangeFrom = 1;
+  examRangeTo = (VOCAB.length);
+  document.getElementById('exam-range-from').value = 1;
+  document.getElementById('exam-range-to').value = VOCAB.length;
+  updateExamSummary();
+  syncExamLevelBtns();
+}
+
+function closeExam() {
+  clearExamTimer();
+  const overlay = document.getElementById('exam-overlay');
+  overlay.style.display = 'none';
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function confirmExitExam() {
+  if (confirm('Exit exam? Your progress will be lost.')) closeExam();
+}
+
+function showExamScreen(screen) {
+  ['exam-setup','exam-quiz','exam-results'].forEach(id => {
+    document.getElementById(id).style.display = id === 'exam-' + screen ? 'block' : 'none';
+  });
+}
+
+function setExamLevel(lvl) {
+  examLevel = lvl;
+  const pool = lvl === 1 ? VOCAB : VOCAB2;
+  examRangeFrom = 1;
+  examRangeTo = pool.length;
+  document.getElementById('exam-range-from').value = 1;
+  document.getElementById('exam-range-to').value = pool.length;
+  syncExamLevelBtns();
+  updateExamSummary();
+}
+
+function syncExamLevelBtns() {
+  document.querySelectorAll('.exam-level-btn').forEach(b => {
+    const active = parseInt(b.dataset.level) === examLevel;
+    b.classList.toggle('active', active);
+    b.style.borderColor = active ? 'var(--accent2)' : 'var(--border)';
+    b.style.background  = active ? 'rgba(124,106,255,0.15)' : 'var(--soft)';
+  });
+}
+
+function setExamQCount(n) {
+  examQCount = n;
+  document.querySelectorAll('.exam-q-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.q) === n);
+  });
+  updateExamSummary();
+}
+
+function validateExamRange() {
+  const pool = examLevel === 1 ? VOCAB : VOCAB2;
+  examRangeFrom = Math.max(1, Math.min(pool.length, parseInt(document.getElementById('exam-range-from').value) || 1));
+  examRangeTo   = Math.max(examRangeFrom, Math.min(pool.length, parseInt(document.getElementById('exam-range-to').value) || pool.length));
+  document.getElementById('exam-range-from').value = examRangeFrom;
+  document.getElementById('exam-range-to').value   = examRangeTo;
+  updateExamSummary();
+}
+
+function updateExamSummary() {
+  const pool = examLevel === 1 ? VOCAB : VOCAB2;
+  const available = examRangeTo - examRangeFrom + 1;
+  const qCount = Math.min(examQCount, available);
+  const secs = qCount <= 5 ? 300 : qCount <= 10 ? 600 : qCount <= 20 ? 900 : 1500;
+  const mins = Math.floor(secs / 60);
+  const pass = Math.ceil(qCount * 0.7);
+
+  document.getElementById('exam-sum-q').textContent   = qCount;
+  document.getElementById('exam-sum-time').textContent = mins + ' min';
+  document.getElementById('exam-sum-pass').textContent = pass + '/' + qCount;
+  document.getElementById('exam-range-info').textContent =
+    available + ' words available in range · ' + qCount + ' questions';
+}
+
+// ── QUESTION GENERATION ────────────────────────────────────
+function generateExamQuestions() {
+  const pool = (examLevel === 1 ? VOCAB : VOCAB2);
+  const fullPool = pool; // all words for wrong options
+  const from = examRangeFrom - 1; // 0-based
+  const to   = examRangeTo - 1;
+  const rangePool = pool.slice(from, to + 1);
+
+  // Shuffle range pool and pick qCount words
+  const shuffled = [...rangePool].sort(() => Math.random() - 0.5);
+  const selected = shuffled.slice(0, Math.min(examQCount, rangePool.length));
+
+  // Question type distribution: 70% BN meaning, 10% EN meaning, 10% similar, 10% opposite
+  const types = [];
+  const n = selected.length;
+  const bnCount   = Math.round(n * 0.70);
+  const enCount   = Math.round(n * 0.10);
+  const simCount  = Math.round(n * 0.10);
+  const oppCount  = n - bnCount - enCount - simCount;
+
+  for (let i = 0; i < bnCount;  i++) types.push('bn_meaning');
+  for (let i = 0; i < enCount;  i++) types.push('en_meaning');
+  for (let i = 0; i < simCount; i++) types.push('similar');
+  for (let i = 0; i < oppCount; i++) types.push('opposite');
+
+  // Shuffle types
+  for (let i = types.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [types[i], types[j]] = [types[j], types[i]];
+  }
+
+  return selected.map((v, qi) => buildQuestion(v, types[qi] || 'bn_meaning', fullPool));
+}
+
+function buildQuestion(v, type, fullPool) {
+  let questionText = '';
+  let questionBn   = '';
+  let correctAnswer = '';
+  let typeBadge    = '';
+  let typeBg       = '';
+  let wrongPool    = [];
+
+  if (type === 'bn_meaning') {
+    // Show the word, user picks the Bangla meaning
+    questionText  = v.word;
+    questionBn    = v.pronunciation;
+    correctAnswer = v.meaning_bn || v.meaning;
+    typeBadge     = 'Bangla Meaning';
+    typeBg        = 'rgba(232,184,109,0.15)';
+    wrongPool     = fullPool.filter(w => w.word !== v.word)
+                            .map(w => w.meaning_bn || w.meaning)
+                            .filter(Boolean);
+  } else if (type === 'en_meaning') {
+    questionText  = v.word;
+    questionBn    = v.pronunciation;
+    correctAnswer = v.meaning;
+    typeBadge     = 'English Meaning';
+    typeBg        = 'rgba(124,106,255,0.12)';
+    wrongPool     = fullPool.filter(w => w.word !== v.word)
+                            .map(w => w.meaning)
+                            .filter(Boolean);
+  } else if (type === 'similar') {
+    // Show the word, pick the correct similar word
+    const simWords = v.similar || [];
+    if (!simWords.length) return buildQuestion(v, 'bn_meaning', fullPool);
+    correctAnswer = simWords[Math.floor(Math.random() * simWords.length)];
+    questionText  = v.word;
+    questionBn    = 'Choose the similar word';
+    typeBadge     = 'Similar Word';
+    typeBg        = 'rgba(107,255,184,0.12)';
+    wrongPool     = fullPool.filter(w => w.word !== v.word)
+                            .flatMap(w => w.similar || [])
+                            .filter(s => !simWords.includes(s));
+  } else {
+    // opposite
+    const oppWords = v.opposite || [];
+    if (!oppWords.length) return buildQuestion(v, 'bn_meaning', fullPool);
+    correctAnswer = oppWords[Math.floor(Math.random() * oppWords.length)];
+    questionText  = v.word;
+    questionBn    = 'Choose the opposite word';
+    typeBadge     = 'Opposite Word';
+    typeBg        = 'rgba(255,107,107,0.1)';
+    wrongPool     = fullPool.filter(w => w.word !== v.word)
+                            .flatMap(w => w.opposite || [])
+                            .filter(o => !oppWords.includes(o));
+  }
+
+  // Pick 3 wrong options from the pool (unique)
+  const wrongSet = new Set();
+  const shuffledWrong = wrongPool.sort(() => Math.random() - 0.5);
+  for (const w of shuffledWrong) {
+    if (w && w.trim() && w !== correctAnswer) {
+      wrongSet.add(w);
+      if (wrongSet.size === 3) break;
+    }
+  }
+  // If not enough wrong options, pad with word names
+  while (wrongSet.size < 3) {
+    const rnd = fullPool[Math.floor(Math.random() * fullPool.length)];
+    if (rnd && rnd.word !== v.word) wrongSet.add(rnd.word);
+  }
+
+  // Shuffle all 4 options
+  const options = [correctAnswer, ...wrongSet].sort(() => Math.random() - 0.5);
+  const correctIdx = options.indexOf(correctAnswer);
+
+  return { v, type, typeBadge, typeBg, questionText, questionBn, options, correctIdx };
+}
+
+// ── EXAM FLOW ──────────────────────────────────────────────
+function startExam() {
+  validateExamRange();
+  examQuestions = generateExamQuestions();
+  if (!examQuestions.length) { showToast('Not enough words in range'); return; }
+
+  examAnswers   = new Array(examQuestions.length).fill(-1);
+  examCurQ      = 0;
+
+  const n    = examQuestions.length;
+  const secs = n <= 5 ? 300 : n <= 10 ? 600 : n <= 20 ? 900 : 1500;
+  examTimerSec  = secs;
+  examTimerLeft = secs;
+  examStartTime = Date.now();
+
+  showExamScreen('quiz');
+  renderExamQuestion();
+  startExamTimer();
+}
+
+function renderExamQuestion() {
+  const q   = examQuestions[examCurQ];
+  const n   = examQuestions.length;
+  const pct = Math.round((examCurQ / n) * 100);
+
+  document.getElementById('exam-q-cur').textContent  = examCurQ + 1;
+  document.getElementById('exam-q-total').textContent = n;
+  document.getElementById('exam-progress-bar').style.width = pct + '%';
+
+  const badge = document.getElementById('exam-q-type-badge');
+  badge.textContent  = q.typeBadge;
+  badge.style.background  = q.typeBg;
+  badge.style.color  = 'var(--text)';
+  badge.style.border = '1px solid rgba(255,255,255,0.1)';
+
+  document.getElementById('exam-question').textContent    = q.questionText;
+  document.getElementById('exam-question-bn').textContent = q.questionBn;
+
+  const letters = ['A', 'B', 'C', 'D'];
+  const optsEl  = document.getElementById('exam-options');
+  optsEl.innerHTML = q.options.map((opt, i) => `
+    <button class="exam-option" onclick="selectExamOption(${i})" id="exam-opt-${i}">
+      <div class="opt-letter">${letters[i]}</div>
+      <div class="opt-text" style="font-family:'Noto Sans Bengali',sans-serif;font-size:0.85rem;">${opt}</div>
+    </button>
+  `).join('');
+
+  document.getElementById('exam-next-row').style.display = 'none';
+}
+
+function selectExamOption(idx) {
+  if (examAnswers[examCurQ] !== -1) return; // already answered
+  examAnswers[examCurQ] = idx;
+  const q = examQuestions[examCurQ];
+
+  // Show result
+  for (let i = 0; i < 4; i++) {
+    const el = document.getElementById('exam-opt-' + i);
+    if (!el) continue;
+    el.classList.add('disabled');
+    if (i === q.correctIdx) el.classList.add('correct');
+    else if (i === idx) el.classList.add('wrong');
+  }
+
+  // Feedback
+  const isCorrect = idx === q.correctIdx;
+  const fb = document.getElementById('exam-feedback');
+  if (isCorrect) {
+    fb.textContent = '✓ Correct! ' + q.options[q.correctIdx];
+    fb.style.background = 'rgba(107,255,184,0.12)';
+    fb.style.color       = 'var(--green)';
+    fb.style.border      = '1px solid rgba(107,255,184,0.3)';
+  } else {
+    fb.innerHTML = '✗ Wrong. Correct answer: <strong>' + q.options[q.correctIdx] + '</strong>';
+    fb.style.background = 'rgba(255,107,107,0.08)';
+    fb.style.color       = 'var(--accent3)';
+    fb.style.border      = '1px solid rgba(255,107,107,0.2)';
+  }
+
+  // Update next button label on last question
+  const nextBtn = document.getElementById('exam-next-btn');
+  nextBtn.textContent = examCurQ === examQuestions.length - 1 ? 'See Results' : 'Next Question →';
+  document.getElementById('exam-next-row').style.display = 'block';
+}
+
+function nextExamQuestion() {
+  if (examCurQ < examQuestions.length - 1) {
+    examCurQ++;
+    renderExamQuestion();
+  } else {
+    finishExam();
+  }
+}
+
+// ── TIMER ──────────────────────────────────────────────────
+function startExamTimer() {
+  clearExamTimer();
+  examTimerID = setInterval(() => {
+    examTimerLeft--;
+    updateTimerDisplay();
+    if (examTimerLeft <= 0) {
+      clearExamTimer();
+      finishExam();
+    }
+  }, 1000);
+}
+
+function clearExamTimer() {
+  if (examTimerID) { clearInterval(examTimerID); examTimerID = null; }
+}
+
+function updateTimerDisplay() {
+  const el = document.getElementById('exam-timer');
+  if (!el) return;
+  const m = Math.floor(examTimerLeft / 60);
+  const s = examTimerLeft % 60;
+  el.textContent = m + ':' + String(s).padStart(2, '0');
+  if (examTimerLeft <= 30) el.classList.add('timer-warning');
+  else el.classList.remove('timer-warning');
+}
+
+// ── RESULTS ─────────────────────────────────────────────────
+function finishExam() {
+  clearExamTimer();
+  const elapsed = Math.floor((Date.now() - examStartTime) / 1000);
+  const n = examQuestions.length;
+  const correct = examAnswers.filter((ans, i) => ans === examQuestions[i].correctIdx).length;
+  const wrong   = n - correct;
+  const pct     = Math.round((correct / n) * 100);
+  const passed  = pct >= 70;
+
+  // Score display
+  document.getElementById('exam-score-emoji').textContent =
+    pct >= 90 ? '🏆' : pct >= 70 ? '🎉' : pct >= 50 ? '📚' : '💪';
+  document.getElementById('exam-score-display').textContent = correct + ' / ' + n;
+  document.getElementById('exam-score-label').textContent =
+    pct + '% · ' + (passed ? 'Passed! 🌟' : 'Keep studying!');
+  document.getElementById('exam-score-display').style.color =
+    passed ? 'var(--green)' : pct >= 50 ? 'var(--accent)' : 'var(--accent3)';
+
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent   = wrong;
+  document.getElementById('res-pct').textContent     = pct + '%';
+  const em = Math.floor(elapsed / 60);
+  const es = elapsed % 60;
+  document.getElementById('res-time').textContent = em + ':' + String(es).padStart(2, '0');
+
+  // Review list
+  const reviewEl = document.getElementById('exam-review-list');
+  reviewEl.innerHTML = examQuestions.map((q, i) => {
+    const userAns = examAnswers[i];
+    const isCorrect = userAns === q.correctIdx;
+    const userAnsText = userAns === -1 ? 'Not answered' : q.options[userAns];
+    return `
+      <div class="review-card ${isCorrect ? 'correct-card' : 'wrong-card'}">
+        <div style="display:flex;align-items:flex-start;gap:10px;">
+          <div style="font-size:1rem;flex-shrink:0;">${isCorrect ? '✓' : '✗'}</div>
+          <div style="flex:1;">
+            <div style="font-weight:700;color:var(--text);font-size:0.88rem;margin-bottom:2px;">${q.questionText}</div>
+            <div style="font-size:0.68rem;color:var(--muted);margin-bottom:6px;">${q.typeBadge}</div>
+            ${!isCorrect ? `<div style="font-size:0.75rem;color:var(--accent3);margin-bottom:3px;">Your answer: ${userAnsText}</div>` : ''}
+            <div style="font-size:0.75rem;color:var(--green);font-weight:600;">Correct: ${q.options[q.correctIdx]}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  showExamScreen('results');
+}
+
+function retryExam() {
+  showExamScreen('setup');
+  updateExamSummary();
 }
 
 
