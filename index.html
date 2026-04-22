@@ -1286,6 +1286,137 @@
   .timer-warning { color:var(--accent3) !important; animation:pulse 1s ease-in-out infinite alternate; }
   @keyframes pulse { from{opacity:1} to{opacity:0.5} }
 
+
+  /* ── ADMIN / NOTIFICATION SYSTEM ───────────────────────── */
+  .notif-type-tab {
+    padding:6px 14px; border-radius:20px; border:1.5px solid var(--border);
+    background:var(--soft); color:var(--muted);
+    font-family:var(--body-font); font-size:0.75rem; cursor:pointer; transition:all 0.2s;
+  }
+  .notif-type-tab.active { background:var(--accent2); border-color:var(--accent2); color:#fff; }
+
+  .notif-priority-btn {
+    padding:4px 12px; border-radius:20px; border:1.5px solid var(--border);
+    background:var(--soft); font-family:var(--body-font); font-size:0.72rem;
+    cursor:pointer; transition:all 0.2s;
+  }
+  .notif-priority-btn.active { border-color:var(--accent2); background:rgba(124,106,255,0.12); }
+
+  /* Inbox notification card */
+  .notif-inbox-card {
+    background:var(--surface); border:1.5px solid var(--border);
+    border-radius:14px; overflow:hidden; transition:all 0.2s;
+  }
+  .notif-inbox-card.unread { border-color:var(--accent2); }
+  .notif-inbox-card:hover { border-color:var(--accent2); }
+  .notif-card-header {
+    display:flex; align-items:flex-start; gap:10px; padding:13px 14px;
+    cursor:pointer;
+  }
+  .notif-type-icon {
+    width:36px; height:36px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .notif-unread-dot {
+    width:8px; height:8px; background:var(--accent2); border-radius:50%; flex-shrink:0; margin-top:5px;
+  }
+  .notif-card-body { padding:0 14px 14px; }
+  .notif-card-img { width:100%; border-radius:10px; max-height:200px; object-fit:cover; margin-bottom:8px; cursor:pointer; }
+  .notif-priority-tag {
+    display:inline-block; font-size:0.58rem; letter-spacing:1px; text-transform:uppercase;
+    padding:2px 8px; border-radius:8px; font-weight:700; margin-bottom:6px;
+  }
+  .priority-normal   { background:rgba(124,106,255,0.15); color:var(--accent2); }
+  .priority-important{ background:rgba(232,184,109,0.15); color:var(--accent); }
+  .priority-urgent   { background:rgba(255,107,107,0.15); color:var(--accent3); }
+
+  /* Admin sent list */
+  .admin-sent-card {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:12px; padding:12px 14px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .admin-sent-card .asc-info { flex:1; min-width:0; }
+  .admin-sent-card .asc-title { font-size:0.85rem; color:var(--text); font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .admin-sent-card .asc-meta  { font-size:0.68rem; color:var(--muted); margin-top:2px; }
+
+  /* Download button */
+  .notif-download-btn {
+    display:inline-flex; align-items:center; gap:6px;
+    background:rgba(124,106,255,0.12); border:1px solid rgba(124,106,255,0.25);
+    color:var(--accent2); border-radius:20px; padding:7px 14px;
+    font-family:var(--body-font); font-size:0.78rem; font-weight:600;
+    cursor:pointer; text-decoration:none; margin-top:6px;
+  }
+  .notif-download-btn:hover { background:var(--accent2); color:#fff; }
+
+  /* Image lightbox */
+  #notif-lightbox {
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9);
+    z-index:999; align-items:center; justify-content:center;
+  }
+  #notif-lightbox.open { display:flex; }
+  #notif-lightbox img { max-width:95vw; max-height:90vh; border-radius:8px; object-fit:contain; }
+  #notif-lightbox-close {
+    position:fixed; top:16px; right:16px; background:rgba(255,255,255,0.15);
+    border:none; color:#fff; width:36px; height:36px; border-radius:50%;
+    cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center;
+  }
+
+
+  /* ── ADMIN PANEL ──────────────────────────────── */
+  .admin-type-btn, .admin-pri-btn {
+    padding:5px 13px; border-radius:20px;
+    border:1.5px solid var(--border); background:var(--soft);
+    color:var(--muted); font-family:var(--body-font);
+    font-size:0.74rem; cursor:pointer; transition:all 0.15s;
+  }
+  .admin-type-btn.active { background:var(--accent2); border-color:var(--accent2); color:#fff; }
+  .admin-pri-btn.active  { border-color:currentColor; background:rgba(124,106,255,0.08); }
+
+  /* ── NOTIFICATION CARDS in view-notif ─────────── */
+  .ncard {
+    background:var(--surface); border:1.5px solid var(--border);
+    border-radius:16px; overflow:hidden; cursor:pointer;
+    transition:border-color 0.2s;
+  }
+  .ncard.unread { border-color:var(--accent2); }
+  .ncard:hover  { border-color:var(--accent2); }
+  .ncard-head   { display:flex; align-items:flex-start; gap:12px; padding:14px 16px; }
+  .ncard-icon   {
+    width:40px; height:40px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.1rem; flex-shrink:0;
+  }
+  .ncard-meta   { flex:1; min-width:0; }
+  .ncard-title  { font-size:0.9rem; font-weight:700; color:var(--text); }
+  .ncard.unread .ncard-title { font-weight:800; }
+  .ncard-time   { font-size:0.65rem; color:var(--muted); margin-top:2px; }
+  .ncard-pri    { display:inline-block; font-size:0.58rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:2px 7px; border-radius:6px; margin-top:4px; }
+  .pri-info      { background:rgba(124,106,255,0.12); color:var(--accent2); }
+  .pri-important { background:rgba(232,184,109,0.15); color:var(--accent); }
+  .pri-urgent    { background:rgba(255,107,107,0.12); color:var(--accent3); }
+  .ncard-dot     { width:8px; height:8px; border-radius:50%; background:var(--accent2); flex-shrink:0; margin-top:6px; }
+  .ncard-body    { display:none; padding:0 16px 14px; border-top:1px solid var(--border); }
+  .ncard-body.open { display:block; }
+  .ncard-img     { width:100%; border-radius:10px; max-height:220px; object-fit:cover; margin:10px 0 6px; cursor:zoom-in; }
+  .ncard-text    { font-size:0.85rem; color:var(--text); line-height:1.6; white-space:pre-wrap; padding-top:10px; }
+  .ncard-dl-btn  {
+    display:inline-flex; align-items:center; gap:6px; margin-top:10px;
+    background:rgba(124,106,255,0.1); border:1px solid rgba(124,106,255,0.25);
+    color:var(--accent2); border-radius:20px; padding:8px 16px;
+    font-family:var(--body-font); font-size:0.78rem; font-weight:600;
+    cursor:pointer; text-decoration:none;
+  }
+  .ncard-dl-btn:hover { background:var(--accent2); color:#fff; }
+  .ncard-link-btn {
+    display:inline-flex; align-items:center; gap:6px; margin-top:10px;
+    background:rgba(107,255,184,0.1); border:1px solid rgba(107,255,184,0.25);
+    color:var(--green); border-radius:20px; padding:8px 16px;
+    font-family:var(--body-font); font-size:0.78rem; font-weight:600;
+    cursor:pointer; text-decoration:none;
+  }
+
 </style>
 </head>
 <body>
@@ -1294,10 +1425,13 @@
   <div class="nav-top-row">
     <div class="nav-logo">Vocab<span>Flash</span></div>
     <div class="nav-top-icons">
+      <button class="nav-icon-btn" id="btn-admin-key" onclick="openAdminLogin()" title="Admin" style="opacity:0.5;">
+        <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v2H2v-4l4.257-4.257A6 6 0 1118 8zm-6-4a1 1 0 100 2 2 2 0 012 2 1 1 0 102 0 4 4 0 00-4-4z" clip-rule="evenodd"/></svg>
+      </button>
       <button class="nav-icon-btn" id="btn-pageview" onclick="toggleView('pageview')" title="All words"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor" opacity=".9"/><rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor" opacity=".9"/><rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor" opacity=".9"/><rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor" opacity=".9"/></svg></button>
-      <button class="nav-icon-btn" id="btn-notif" onclick="openNotifSettings()" title="Reminders" style="position:relative;">
+      <button class="nav-icon-btn" id="btn-notif" onclick="showView('notif')" title="Notifications" style="position:relative;">
         <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/></svg>
-        <span id="notif-badge" style="display:none;position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--accent2);border-radius:50%;border:1.5px solid var(--bg);"></span>
+        <span id="notif-badge" style="display:none;position:absolute;top:3px;right:3px;width:8px;height:8px;background:var(--accent3);border-radius:50%;border:1.5px solid var(--bg);"></span>
       </button>
       <button class="nav-icon-btn" id="btn-settings" onclick="toggleView('settings')" title="Settings"><svg width="17" height="17" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg></button>
     </div>
@@ -1577,6 +1711,29 @@
 
       <!-- Word list (shown when NOT studying a specific card) -->
       <div id="study-words-grid" style="display:flex;flex-direction:column;gap:10px;"></div>
+    </div>
+  </div>
+
+
+  <!-- NOTIFICATIONS VIEW -->
+  <div class="view" id="view-notif">
+    <div style="margin-bottom:18px;">
+      <div style="font-family:var(--display-font,'Playfair Display',serif);font-size:1.5rem;color:var(--text);margin-bottom:3px;">Notifications</div>
+      <div style="font-size:0.75rem;color:var(--muted);" id="notif-view-subtitle">Loading...</div>
+    </div>
+    <!-- Refresh button -->
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+      <button onclick="fetchNotifications(true)" style="background:var(--soft);border:1px solid var(--border);color:var(--accent2);border-radius:20px;padding:6px 14px;font-size:0.75rem;font-family:var(--body-font);cursor:pointer;display:flex;align-items:center;gap:5px;">
+        <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/></svg>
+        Refresh
+      </button>
+    </div>
+    <!-- Notification list -->
+    <div id="notif-view-list" style="display:flex;flex-direction:column;gap:12px;"></div>
+    <div id="notif-view-empty" style="display:none;text-align:center;padding:60px 20px;color:var(--muted);">
+      <div style="font-size:2.5rem;margin-bottom:12px;">🔔</div>
+      <div style="font-size:0.9rem;">No notifications yet</div>
+      <div style="font-size:0.72rem;margin-top:4px;">Check back later for updates from your teacher</div>
     </div>
   </div>
 
@@ -1872,6 +2029,30 @@
 <!-- ═══════════════════════════════════════════════════════════
      EXAM OVERLAY — Full-screen MCQ Exam
      ═══════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════════
+     ADMIN LOGIN OVERLAY
+     ═══════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════════
+     ADMIN PANEL OVERLAY
+     ═══════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════════
+     NOTIFICATION INBOX OVERLAY (for regular users)
+     ═══════════════════════════════════════════════════════ -->
+<!-- SEARCH MODAL -->
+<div class="modal-overlay" id="search-modal" onclick="handleModalClick(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span style="color:var(--muted);font-size:1rem;">🔍</span>
+      <input class="modal-search-inp" id="modal-search-inp" placeholder="Search words, meanings..." oninput="renderModalResults()" autofocus>
+      <button class="modal-close" onclick="closeSearch()">✕</button>
+    </div>
+    <div class="modal-results" id="modal-results">
+      <div class="modal-empty">Start typing to search all 60 words...</div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
 <div id="exam-overlay" style="position:fixed;inset:0;background:var(--bg);z-index:300;overflow-y:auto;flex-direction:column;">
   <div style="max-width:520px;margin:0 auto;width:100%;padding:0 0 40px;">
 
@@ -2045,21 +2226,12 @@
   </div>
 </div>
 
-<!-- SEARCH MODAL -->
-<div class="modal-overlay" id="search-modal" onclick="handleModalClick(event)">
-  <div class="modal-box">
-    <div class="modal-header">
-      <span style="color:var(--muted);font-size:1rem;">🔍</span>
-      <input class="modal-search-inp" id="modal-search-inp" placeholder="Search words, meanings..." oninput="renderModalResults()" autofocus>
-      <button class="modal-close" onclick="closeSearch()">✕</button>
-    </div>
-    <div class="modal-results" id="modal-results">
-      <div class="modal-empty">Start typing to search all 60 words...</div>
-    </div>
-  </div>
+<div id="notif-lightbox" onclick="closeNotifLightbox()">
+  <button id="notif-lightbox-close" onclick="closeNotifLightbox()">✕</button>
+  <img id="notif-lightbox-img" src="" alt="">
 </div>
 
-<div class="toast" id="toast"></div>
+
 
 <script>
 // ============================================================
@@ -5824,13 +5996,19 @@ const VOCAB = [
 
 
 
+
+
+
 ];
 
 // ============================================================
 //  LEVEL 2 — HARD WORDS DATABASE
 // ============================================================
 const VOCAB2 = [
-  
+
+
+
+
 {
     "word": "Pragmatic",
     "number": 212,
@@ -18602,6 +18780,10 @@ const VOCAB2 = [
     "fun": "🎬 মুভিতে মেকআপ এমন হওয়া যাতে মনে হয় লোকটা আসলেই চোট পেয়েছে।"
   },
 
+
+
+
+
 ];
 
 // ============================================================
@@ -20740,6 +20922,427 @@ function retryExam() {
 }
 
 
+
+
+
+// ============================================================
+//  ADMIN + GITHUB-BACKED NOTIFICATION SYSTEM
+// ============================================================
+const ADMIN_CREDS = { user: 'asif', pass: 'kingqueen' };
+let adminLoggedIn   = false;
+let adminType       = 'text';
+let adminPriority   = 'info';
+let adminFileStore  = {}; // { img: {data,name,mime}, file: {data,name,mime,size} }
+
+// ── GitHub config (saved to localStorage) ─────────────────
+function getGhConfig() {
+  return {
+    repo:   localStorage.getItem('vf_gh_repo')   || '',
+    token:  localStorage.getItem('vf_gh_token')  || '',
+    branch: localStorage.getItem('vf_gh_branch') || 'main'
+  };
+}
+function saveGhConfig() {
+  const repo   = document.getElementById('gh-repo').value.trim();
+  const token  = document.getElementById('gh-token').value.trim();
+  const branch = document.getElementById('gh-branch').value.trim() || 'main';
+  localStorage.setItem('vf_gh_repo', repo);
+  localStorage.setItem('vf_gh_token', token);
+  localStorage.setItem('vf_gh_branch', branch);
+  document.getElementById('gh-status').innerHTML =
+    '<span style="color:var(--green);">✓ Config saved!</span> Now test by sending a notification.';
+}
+function loadGhConfigUI() {
+  const cfg = getGhConfig();
+  const r = document.getElementById('gh-repo');
+  const t = document.getElementById('gh-token');
+  const b = document.getElementById('gh-branch');
+  if (r) r.value = cfg.repo;
+  if (t) t.value = cfg.token;
+  if (b) b.value = cfg.branch;
+}
+
+// ── ADMIN AUTH ─────────────────────────────────────────────
+function openAdminLogin() {
+  const ov = document.getElementById('admin-login-overlay');
+  ov.style.display = 'flex';
+  document.getElementById('al-user').value = '';
+  document.getElementById('al-pass').value = '';
+  document.getElementById('al-err').style.display = 'none';
+  setTimeout(() => document.getElementById('al-user').focus(), 50);
+}
+function tryAdminLogin() {
+  const u = (document.getElementById('al-user').value || '').trim();
+  const p =  document.getElementById('al-pass').value || '';
+  if (u === ADMIN_CREDS.user && p === ADMIN_CREDS.pass) {
+    adminLoggedIn = true;
+    document.getElementById('admin-login-overlay').style.display = 'none';
+    openAdminPanel();
+  } else {
+    const e = document.getElementById('al-err');
+    e.textContent = 'Wrong username or password';
+    e.style.display = 'block';
+    document.getElementById('al-pass').value = '';
+  }
+}
+function adminLogout() {
+  adminLoggedIn = false;
+  closeAdminPanel();
+}
+function openAdminPanel() {
+  if (!adminLoggedIn) { openAdminLogin(); return; }
+  document.getElementById('admin-panel-overlay').style.display = 'block';
+  document.getElementById('btn-admin-key').style.opacity = '1';
+  loadGhConfigUI();
+  setAdminType('text');
+  refreshAdminList();
+}
+function closeAdminPanel() {
+  document.getElementById('admin-panel-overlay').style.display = 'none';
+  document.getElementById('btn-admin-key').style.opacity = adminLoggedIn ? '1' : '0.5';
+}
+
+// ── COMPOSE ────────────────────────────────────────────────
+function setAdminType(t) {
+  adminType = t;
+  document.querySelectorAll('.admin-type-btn').forEach(b => b.classList.toggle('active', b.dataset.t === t));
+  ['text','image','file','link'].forEach(id => {
+    const el = document.getElementById('atype-' + id);
+    if (el) el.style.display = id === t ? 'block' : 'none';
+  });
+}
+function setAdminPri(p) {
+  adminPriority = p;
+  document.querySelectorAll('.admin-pri-btn').forEach(b => b.classList.toggle('active', b.dataset.p === p));
+}
+function adminReadFile(input, key) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 8 * 1024 * 1024) { showToast('Max file size 8 MB'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    adminFileStore[key] = { data: e.target.result, name: file.name, mime: file.type, size: file.size };
+    const prev = document.getElementById('admin-' + (key === 'img' ? 'img' : 'file') + '-preview');
+    if (key === 'img') {
+      prev.innerHTML = `<img src="${e.target.result}" style="width:100%;border-radius:8px;max-height:140px;object-fit:cover;">`;
+    } else {
+      prev.innerHTML = `<div style="font-size:1.3rem;">📄</div><div style="font-size:0.78rem;color:var(--text);margin-top:4px;">${file.name}</div><div style="font-size:0.65rem;color:var(--muted);">${(file.size/1024).toFixed(0)} KB</div>`;
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── SEND → GitHub API ──────────────────────────────────────
+async function adminSendNotification() {
+  const cfg = getGhConfig();
+  const title = (document.getElementById('admin-notif-title').value || '').trim();
+  if (!title) { showToast('Please add a title'); return; }
+  if (!cfg.repo || !cfg.token) { showToast('Set GitHub repo + token first'); return; }
+
+  const btn = document.getElementById('admin-send-btn');
+  const status = document.getElementById('admin-send-status');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  status.textContent = 'Pushing to GitHub...';
+  status.style.color = 'var(--muted)';
+
+  // Build notification object
+  const notif = {
+    id: Date.now().toString(),
+    timestamp: new Date().toISOString(),
+    type: adminType,
+    priority: adminPriority,
+    title,
+    from: 'Admin'
+  };
+
+  if (adminType === 'text') {
+    notif.body = (document.getElementById('admin-notif-body').value || '').trim();
+  } else if (adminType === 'image' && adminFileStore.img) {
+    notif.imageData = adminFileStore.img.data;  // base64
+    notif.imageName = adminFileStore.img.name;
+    notif.caption   = (document.getElementById('admin-img-caption').value || '').trim();
+  } else if (adminType === 'file' && adminFileStore.file) {
+    notif.fileData  = adminFileStore.file.data;
+    notif.fileName  = adminFileStore.file.name;
+    notif.fileMime  = adminFileStore.file.mime;
+    notif.fileSize  = adminFileStore.file.size;
+    notif.desc      = (document.getElementById('admin-file-desc').value || '').trim();
+  } else if (adminType === 'link') {
+    notif.url  = (document.getElementById('admin-link-url').value || '').trim();
+    notif.desc = (document.getElementById('admin-link-desc').value || '').trim();
+    if (!notif.url) { showToast('Please enter a URL'); btn.disabled = false; btn.textContent = 'Send Notification'; return; }
+  }
+
+  try {
+    // 1. Get current file SHA (needed for update)
+    const filePath = 'notifications.json';
+    const apiBase = `https://api.github.com/repos/${cfg.repo}/contents/${filePath}`;
+    const headers = { 'Authorization': `token ${cfg.token}`, 'Content-Type': 'application/json' };
+
+    let sha = null;
+    let existing = [];
+    try {
+      const getResp = await fetch(apiBase, { headers });
+      if (getResp.ok) {
+        const getJson = await getResp.json();
+        sha = getJson.sha;
+        existing = JSON.parse(atob(getJson.content.replace(/\n/g, '')));
+      }
+    } catch(e) {}
+
+    // 2. Prepend new notification
+    existing.unshift(notif);
+
+    // 3. Commit updated JSON
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(existing, null, 2))));
+    const body = { message: `Add notification: ${title}`, content, branch: cfg.branch || 'main' };
+    if (sha) body.sha = sha;
+
+    const putResp = await fetch(apiBase, { method: 'PUT', headers, body: JSON.stringify(body) });
+
+    if (putResp.ok || putResp.status === 201) {
+      status.innerHTML = '<span style="color:var(--green);">✓ Sent successfully!</span>';
+      // Reset form
+      document.getElementById('admin-notif-title').value = '';
+      document.getElementById('admin-notif-body').value = '';
+      if (document.getElementById('admin-img-caption')) document.getElementById('admin-img-caption').value = '';
+      if (document.getElementById('admin-file-desc')) document.getElementById('admin-file-desc').value = '';
+      if (document.getElementById('admin-link-url')) document.getElementById('admin-link-url').value = '';
+      if (document.getElementById('admin-link-desc')) document.getElementById('admin-link-desc').value = '';
+      adminFileStore = {};
+      const imgPrev = document.getElementById('admin-img-preview');
+      if (imgPrev) imgPrev.innerHTML = '<div style="font-size:1.5rem;">🖼️</div><div style="font-size:0.78rem;color:var(--muted);margin-top:4px;">Tap to upload image</div>';
+      const filePrev = document.getElementById('admin-file-preview');
+      if (filePrev) filePrev.innerHTML = '<div style="font-size:1.5rem;">📄</div><div style="font-size:0.78rem;color:var(--muted);margin-top:4px;">Tap to upload file</div>';
+      refreshAdminList();
+      updateNotifBadge();
+    } else {
+      const errJson = await putResp.json().catch(() => ({}));
+      status.innerHTML = `<span style="color:var(--accent3);">Error: ${errJson.message || putResp.status}</span>`;
+    }
+  } catch(err) {
+    status.innerHTML = `<span style="color:var(--accent3);">Network error: ${err.message}</span>`;
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Send Notification';
+}
+
+async function adminDeleteNotification(id) {
+  if (!confirm('Delete this notification?')) return;
+  const cfg = getGhConfig();
+  const apiBase = `https://api.github.com/repos/${cfg.repo}/contents/notifications.json`;
+  const headers = { 'Authorization': `token ${cfg.token}`, 'Content-Type': 'application/json' };
+  try {
+    const getResp = await fetch(apiBase, { headers });
+    if (!getResp.ok) { showToast('Could not fetch notifications'); return; }
+    const getJson = await getResp.json();
+    const sha = getJson.sha;
+    let existing = JSON.parse(atob(getJson.content.replace(/\n/g, '')));
+    existing = existing.filter(n => n.id !== id);
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(existing, null, 2))));
+    await fetch(apiBase, { method: 'PUT', headers, body: JSON.stringify({ message: 'Delete notification', content, sha, branch: cfg.branch || 'main' }) });
+    showToast('Deleted');
+    refreshAdminList();
+    fetchNotifications(true);
+  } catch(e) { showToast('Error: ' + e.message); }
+}
+
+async function refreshAdminList() {
+  const notifs = await loadNotificationsFromGitHub();
+  const list = document.getElementById('admin-notif-list');
+  if (!list) return;
+  if (!notifs.length) {
+    list.innerHTML = '<div style="text-align:center;padding:16px;color:var(--muted);font-size:0.8rem;">No notifications yet</div>';
+    return;
+  }
+  const icons = { text:'💬', image:'🖼️', file:'📄', link:'🔗' };
+  list.innerHTML = notifs.map(n => {
+    const d = new Date(n.timestamp);
+    return `<div style="background:var(--soft);border:1px solid var(--border);border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:10px;">
+      <span style="font-size:1.1rem;flex-shrink:0;">${icons[n.type]||'📢'}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:0.85rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${n.title}</div>
+        <div style="font-size:0.65rem;color:var(--muted);margin-top:1px;">${d.toLocaleDateString()} ${d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})} · ${n.type}</div>
+      </div>
+      <button onclick="adminDeleteNotification('${n.id}')" style="background:rgba(255,107,107,0.1);border:none;color:var(--accent3);border-radius:50%;width:26px;height:26px;cursor:pointer;flex-shrink:0;font-size:0.75rem;display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>`;
+  }).join('');
+}
+
+// ── FETCH FROM GITHUB (users) ──────────────────────────────
+let cachedNotifs = null;
+let lastFetched  = 0;
+
+async function loadNotificationsFromGitHub() {
+  const cfg = getGhConfig();
+  if (!cfg.repo) {
+    // Fallback to localStorage (offline/no config)
+    try { return JSON.parse(localStorage.getItem('vf_notifs_local') || '[]'); } catch(e) { return []; }
+  }
+  try {
+    // Use raw GitHub URL (no auth needed for public repos)
+    const rawUrl = `https://raw.githubusercontent.com/${cfg.repo}/${cfg.branch || 'main'}/notifications.json?t=${Date.now()}`;
+    const resp = await fetch(rawUrl);
+    if (resp.ok) {
+      const data = await resp.json();
+      cachedNotifs = data;
+      lastFetched = Date.now();
+      return data;
+    }
+  } catch(e) {}
+  return cachedNotifs || [];
+}
+
+async function fetchNotifications(forceRefresh) {
+  const now = Date.now();
+  // Cache for 60 seconds unless forced
+  if (!forceRefresh && cachedNotifs && (now - lastFetched) < 60000) {
+    renderNotifView(cachedNotifs);
+    return;
+  }
+  updateNotifViewState('loading');
+  const notifs = await loadNotificationsFromGitHub();
+  cachedNotifs = notifs;
+  lastFetched = now;
+  renderNotifView(notifs);
+  updateNotifBadge();
+}
+
+function updateNotifViewState(state) {
+  const sub = document.getElementById('notif-view-subtitle');
+  if (sub && state === 'loading') sub.textContent = 'Fetching latest...';
+}
+
+// ── RENDER NOTIFICATION VIEW ───────────────────────────────
+const readIds = () => { try { return JSON.parse(localStorage.getItem('vf_read_ids') || '[]'); } catch(e) { return []; } };
+const markRead = id => { const r = readIds(); if (!r.includes(id)) { r.push(id); localStorage.setItem('vf_read_ids', JSON.stringify(r)); } };
+
+function renderNotifView(notifs) {
+  const list    = document.getElementById('notif-view-list');
+  const empty   = document.getElementById('notif-view-empty');
+  const sub     = document.getElementById('notif-view-subtitle');
+  if (!list) return;
+
+  const read = readIds();
+  const unread = notifs.filter(n => !read.includes(n.id)).length;
+  if (sub) sub.textContent = notifs.length ? (unread > 0 ? `${unread} unread · ${notifs.length} total` : `${notifs.length} notification${notifs.length!==1?'s':''}`) : 'No notifications';
+
+  if (!notifs.length) { empty.style.display = 'block'; list.innerHTML = ''; return; }
+  empty.style.display = 'none';
+
+  const icons   = { text:'💬', image:'🖼️', file:'📄', link:'🔗' };
+  const iconBg  = { text:'rgba(124,106,255,0.12)', image:'rgba(232,184,109,0.12)', file:'rgba(255,107,107,0.1)', link:'rgba(107,255,184,0.1)' };
+
+  list.innerHTML = notifs.map((n, idx) => {
+    const isRead = read.includes(n.id);
+    const d = new Date(n.timestamp);
+    const timeStr = formatTimeAgo(d);
+
+    let bodyHtml = '';
+    if (n.type === 'text' && n.body) {
+      bodyHtml = `<div class="ncard-text">${escHtml(n.body)}</div>`;
+    } else if (n.type === 'image' && n.imageData) {
+      bodyHtml = `<img class="ncard-img" src="${n.imageData}" alt="${escHtml(n.imageName||'')}" onclick="event.stopPropagation();openLightbox('${idx}')">`;
+      if (n.caption) bodyHtml += `<div style="font-size:0.78rem;color:var(--muted);">${escHtml(n.caption)}</div>`;
+    } else if (n.type === 'file' && n.fileData) {
+      bodyHtml = `<div style="display:flex;align-items:center;gap:10px;background:var(--soft);border-radius:10px;padding:10px 12px;margin-top:8px;">
+        <span style="font-size:1.4rem;">📄</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:0.82rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(n.fileName||'File')}</div>
+          ${n.fileSize ? `<div style="font-size:0.65rem;color:var(--muted);">${(n.fileSize/1024).toFixed(0)} KB</div>` : ''}
+        </div>
+      </div>
+      ${n.desc ? `<div style="font-size:0.82rem;color:var(--muted);margin-top:6px;">${escHtml(n.desc)}</div>` : ''}
+      <a class="ncard-dl-btn" href="${n.fileData}" download="${escHtml(n.fileName||'file')}" onclick="event.stopPropagation()">
+        <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        Download ${escHtml(n.fileName||'file')}
+      </a>`;
+    } else if (n.type === 'link' && n.url) {
+      if (n.desc) bodyHtml += `<div style="font-size:0.85rem;color:var(--text);padding-top:8px;">${escHtml(n.desc)}</div>`;
+      bodyHtml += `<a class="ncard-link-btn" href="${n.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+        <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg>
+        Open Link
+      </a>`;
+    }
+
+    return `<div class="ncard${isRead?'':' unread'}" id="ncard-${n.id}" onclick="toggleNcard('${n.id}',${idx})">
+      <div class="ncard-head">
+        <div class="ncard-icon" style="background:${iconBg[n.type]||'var(--soft)'};">${icons[n.type]||'📢'}</div>
+        <div class="ncard-meta">
+          <div class="ncard-title">${escHtml(n.title)}</div>
+          <div class="ncard-time">${timeStr} · from Admin</div>
+          <span class="ncard-pri pri-${n.priority||'info'}">${n.priority||'info'}</span>
+        </div>
+        ${!isRead ? '<div class="ncard-dot"></div>' : ''}
+      </div>
+      <div class="ncard-body" id="nbody-${n.id}">${bodyHtml}</div>
+    </div>`;
+  }).join('');
+
+  // Store images for lightbox
+  window._notifImgCache = {};
+  notifs.forEach((n, i) => { if (n.imageData) window._notifImgCache[i] = n.imageData; });
+}
+
+function toggleNcard(id, idx) {
+  const body = document.getElementById('nbody-' + id);
+  if (!body) return;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  if (!isOpen) {
+    markRead(id);
+    const card = document.getElementById('ncard-' + id);
+    if (card) { card.classList.remove('unread'); const dot = card.querySelector('.ncard-dot'); if(dot) dot.remove(); }
+    updateNotifBadge();
+    renderNotifView(cachedNotifs || []);
+  }
+}
+
+function openLightbox(idx) {
+  const src = window._notifImgCache && window._notifImgCache[idx];
+  if (!src) return;
+  const lb = document.getElementById('img-lightbox');
+  document.getElementById('img-lightbox-src').src = src;
+  lb.style.display = 'flex';
+}
+
+function updateNotifBadge() {
+  const notifs = cachedNotifs || [];
+  const read = readIds();
+  const unread = notifs.filter(n => !read.includes(n.id)).length;
+  const badge = document.getElementById('notif-badge');
+  if (badge) badge.style.display = unread > 0 ? 'block' : 'none';
+}
+
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function formatTimeAgo(d) {
+  const diff = Math.floor((Date.now() - d) / 1000);
+  if (diff < 60)   return 'Just now';
+  if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+  if (diff < 86400)return Math.floor(diff/3600) + 'h ago';
+  if (diff < 604800) return Math.floor(diff/86400) + 'd ago';
+  return d.toLocaleDateString();
+}
+
+// Auto-fetch when notif view is opened
+const _origShowView = showView;
+function showView(v) {
+  _origShowView(v);
+  if (v === 'notif') fetchNotifications(false);
+}
+
+// Init
+function initAdminNotifSystem() {
+  updateNotifBadge();
+  // Fetch in background on load
+  setTimeout(() => fetchNotifications(false), 1500);
+}
+
 // ============================================================
 //  NOTIFICATION SYSTEM
 // ============================================================
@@ -20960,6 +21563,7 @@ initTheme();
 initImgToggle();
 initSettings();
 initNotifications();
+initAdminNotifSystem();
 
 // Restore last active view
 const savedView = localStorage.getItem('vf_view') || 'flash';
@@ -20979,5 +21583,130 @@ if (restoreView !== 'flash') {
   if (btn) btn.classList.add('active');
 }
 </script>
+
+<!-- ═══════ ADMIN LOGIN MODAL ═══════ -->
+<div id="admin-login-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:600;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:30px 24px;width:100%;max-width:320px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+    <div style="text-align:center;margin-bottom:24px;">
+      <div style="width:56px;height:56px;background:linear-gradient(135deg,var(--accent2),var(--accent));border-radius:18px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px;">
+        <svg width="26" height="26" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v2H2v-4l4.257-4.257A6 6 0 1118 8zm-6-4a1 1 0 100 2 2 2 0 012 2 1 1 0 102 0 4 4 0 00-4-4z" clip-rule="evenodd"/></svg>
+      </div>
+      <div style="font-family:var(--display-font);font-size:1.4rem;color:var(--text);font-weight:700;">Admin Panel</div>
+      <div style="font-size:0.72rem;color:var(--muted);margin-top:3px;">Sign in to manage notifications</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+      <input id="al-user" type="text" placeholder="Username"
+        style="background:var(--soft);border:1.5px solid var(--border);color:var(--text);border-radius:12px;padding:12px 14px;font-family:var(--body-font);font-size:0.88rem;outline:none;width:100%;box-sizing:border-box;"
+        onkeydown="if(event.key==='Enter')tryAdminLogin()">
+      <input id="al-pass" type="password" placeholder="Password"
+        style="background:var(--soft);border:1.5px solid var(--border);color:var(--text);border-radius:12px;padding:12px 14px;font-family:var(--body-font);font-size:0.88rem;outline:none;width:100%;box-sizing:border-box;"
+        onkeydown="if(event.key==='Enter')tryAdminLogin()">
+      <div id="al-err" style="display:none;background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.3);color:var(--accent3);border-radius:8px;padding:8px 12px;font-size:0.75rem;text-align:center;"></div>
+    </div>
+    <button onclick="tryAdminLogin()" style="width:100%;background:linear-gradient(135deg,var(--accent2),var(--accent));border:none;color:#fff;border-radius:12px;padding:13px;font-family:var(--body-font);font-size:0.9rem;font-weight:700;cursor:pointer;margin-bottom:8px;">Login</button>
+    <button onclick="document.getElementById('admin-login-overlay').style.display='none'" style="width:100%;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:12px;padding:10px;font-family:var(--body-font);font-size:0.82rem;cursor:pointer;">Cancel</button>
+  </div>
+</div>
+
+<!-- ═══════ ADMIN PANEL ═══════ -->
+<div id="admin-panel-overlay" style="display:none;position:fixed;inset:0;background:var(--bg);z-index:500;overflow-y:auto;">
+  <div style="max-width:540px;margin:0 auto;padding:20px;">
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-top:10px;">
+      <div style="width:44px;height:44px;background:linear-gradient(135deg,var(--accent2),var(--accent));border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="22" height="22" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v2H2v-4l4.257-4.257A6 6 0 1118 8zm-6-4a1 1 0 100 2 2 2 0 012 2 1 1 0 102 0 4 4 0 00-4-4z" clip-rule="evenodd"/></svg>
+      </div>
+      <div style="flex:1;">
+        <div style="font-family:var(--display-font);font-size:1.2rem;color:var(--text);font-weight:700;">Admin Panel</div>
+        <div style="font-size:0.7rem;color:var(--accent2);">Logged in as asif</div>
+      </div>
+      <button onclick="adminLogout()" style="background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.2);color:var(--accent3);border-radius:20px;padding:5px 12px;font-size:0.72rem;cursor:pointer;font-family:var(--body-font);">Logout</button>
+    </div>
+
+    <!-- GitHub config (user sets once) -->
+    <div id="gh-config-panel" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px 16px;margin-bottom:16px;">
+      <div style="font-size:0.7rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">GitHub Settings <span style="color:var(--accent3);font-size:0.65rem;">(required for dynamic notifications)</span></div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <input id="gh-repo" placeholder="owner/repo  (e.g. asif/vocabflash)" style="background:var(--soft);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:9px 12px;font-family:var(--body-font);font-size:0.82rem;outline:none;width:100%;box-sizing:border-box;">
+        <input id="gh-token" type="password" placeholder="GitHub Personal Access Token (repo write scope)" style="background:var(--soft);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:9px 12px;font-family:var(--body-font);font-size:0.82rem;outline:none;width:100%;box-sizing:border-box;">
+        <input id="gh-branch" placeholder="Branch (default: main)" style="background:var(--soft);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:9px 12px;font-family:var(--body-font);font-size:0.82rem;outline:none;width:100%;box-sizing:border-box;">
+        <button onclick="saveGhConfig()" style="background:var(--accent2);border:none;color:#fff;border-radius:10px;padding:9px;font-family:var(--body-font);font-size:0.8rem;cursor:pointer;font-weight:600;">Save GitHub Config</button>
+      </div>
+      <div id="gh-status" style="margin-top:8px;font-size:0.72rem;color:var(--muted);"></div>
+    </div>
+
+    <!-- Compose notification -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px 16px;margin-bottom:16px;">
+      <div style="font-size:0.7rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;">Compose Notification</div>
+
+      <!-- Type selector -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+        <button class="admin-type-btn active" data-t="text" onclick="setAdminType('text')">Text</button>
+        <button class="admin-type-btn" data-t="image" onclick="setAdminType('image')">Image</button>
+        <button class="admin-type-btn" data-t="file" onclick="setAdminType('file')">File/PDF</button>
+        <button class="admin-type-btn" data-t="link" onclick="setAdminType('link')">Link</button>
+      </div>
+
+      <!-- Title always shown -->
+      <input id="admin-notif-title" placeholder="Title *" style="width:100%;box-sizing:border-box;background:var(--soft);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:10px 12px;font-family:var(--body-font);font-size:0.85rem;outline:none;margin-bottom:8px;">
+
+      <!-- Text area -->
+      <div id="atype-text">
+        <textarea id="admin-notif-body" rows="4" placeholder="Message body..." style="width:100%;box-sizing:border-box;background:var(--soft);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:10px 12px;font-family:var(--body-font);font-size:0.85rem;resize:vertical;outline:none;"></textarea>
+      </div>
+
+      <!-- Image upload -->
+      <div id="atype-image" style="display:none;">
+        <label style="display:block;border:2px dashed var(--border);border-radius:12px;padding:16px;text-align:center;cursor:pointer;background:var(--soft);margin-bottom:8px;">
+          <input type="file" id="admin-img-file" accept="image/*" style="display:none;" onchange="adminReadFile(this,'img')">
+          <div id="admin-img-preview"><div style="font-size:1.5rem;">🖼️</div><div style="font-size:0.78rem;color:var(--muted);margin-top:4px;">Tap to upload image</div></div>
+        </label>
+        <input id="admin-img-caption" placeholder="Caption (optional)" style="width:100%;box-sizing:border-box;background:var(--soft);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:9px 12px;font-family:var(--body-font);font-size:0.82rem;outline:none;">
+      </div>
+
+      <!-- File upload -->
+      <div id="atype-file" style="display:none;">
+        <label style="display:block;border:2px dashed var(--border);border-radius:12px;padding:16px;text-align:center;cursor:pointer;background:var(--soft);margin-bottom:8px;">
+          <input type="file" id="admin-file-input" style="display:none;" onchange="adminReadFile(this,'file')">
+          <div id="admin-file-preview"><div style="font-size:1.5rem;">📄</div><div style="font-size:0.78rem;color:var(--muted);margin-top:4px;">Tap to upload file (PDF, DOC, ZIP...)</div></div>
+        </label>
+        <input id="admin-file-desc" placeholder="Description (optional)" style="width:100%;box-sizing:border-box;background:var(--soft);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:9px 12px;font-family:var(--body-font);font-size:0.82rem;outline:none;">
+      </div>
+
+      <!-- Link -->
+      <div id="atype-link" style="display:none;">
+        <input id="admin-link-url" placeholder="URL (https://...)" type="url" style="width:100%;box-sizing:border-box;background:var(--soft);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:9px 12px;font-family:var(--body-font);font-size:0.82rem;outline:none;margin-bottom:8px;">
+        <input id="admin-link-desc" placeholder="Link description" style="width:100%;box-sizing:border-box;background:var(--soft);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:9px 12px;font-family:var(--body-font);font-size:0.82rem;outline:none;">
+      </div>
+
+      <!-- Priority -->
+      <div style="display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap;">
+        <span style="font-size:0.72rem;color:var(--muted);">Priority:</span>
+        <button class="admin-pri-btn active" data-p="info" onclick="setAdminPri('info')" style="color:var(--accent2);">Info</button>
+        <button class="admin-pri-btn" data-p="important" onclick="setAdminPri('important')" style="color:var(--accent);">Important</button>
+        <button class="admin-pri-btn" data-p="urgent" onclick="setAdminPri('urgent')" style="color:var(--accent3);">Urgent</button>
+      </div>
+
+      <!-- Send -->
+      <button onclick="adminSendNotification()" id="admin-send-btn" style="width:100%;background:linear-gradient(135deg,var(--accent2),var(--accent));border:none;color:#fff;border-radius:12px;padding:13px;font-family:var(--body-font);font-size:0.9rem;font-weight:700;cursor:pointer;margin-top:14px;">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" style="vertical-align:middle;margin-right:5px;"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
+        Send Notification
+      </button>
+      <div id="admin-send-status" style="margin-top:8px;font-size:0.75rem;text-align:center;color:var(--muted);"></div>
+    </div>
+
+    <!-- Sent list -->
+    <div style="font-size:0.7rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">All Notifications</div>
+    <div id="admin-notif-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+
+    <button onclick="closeAdminPanel()" style="width:100%;background:var(--soft);border:1px solid var(--border);color:var(--muted);border-radius:12px;padding:11px;font-family:var(--body-font);font-size:0.82rem;cursor:pointer;margin-top:16px;">Close</button>
+  </div>
+</div>
+
+<!-- ═══════ IMAGE LIGHTBOX ═══════ -->
+<div id="img-lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:999;align-items:center;justify-content:center;" onclick="document.getElementById('img-lightbox').style.display='none'">
+  <img id="img-lightbox-src" style="max-width:95vw;max-height:90vh;border-radius:8px;object-fit:contain;">
+</div>
+
 </body>
-</html>
