@@ -867,6 +867,14 @@
     border: 2px solid rgba(255,255,255,0.2);
     border-top-color: rgba(255,255,255,0.8);
     border-radius: 50%;
+    animation: imgSpin 0.7s linear infinite;
+  }
+  @keyframes imgSpin { to { transform:rotate(360deg); } }
+  /* Stop spinner CPU when wrap hidden */
+  .card-img-wrap[style*="display: none"] .img-spinner,
+  .card-img-wrap[style*="display:none"] .img-spinner,
+  .card-img-wrap[style*="visibility:hidden"] .img-spinner { animation: none !important; display:none; }5,255,255,0.8);
+    border-radius: 50%;
     animation: spin 0.7s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -6075,15 +6083,12 @@ const VOCAB = [
 
 
 
-
 ];
 
 // ============================================================
 //  LEVEL 2 — HARD WORDS DATABASE
 // ============================================================
 const VOCAB2 = [
-
-
 
 
 {
@@ -20359,6 +20364,7 @@ function handleImgError(placeholderId, imgId, wrapId) {
 // Claude generates the best search query for a word
 const queryCache = {};
 async function getSearchQuery(word, meaning) {
+  if (!cardImagesOn) return word; // no API call when images are off
   if (queryCache[word]) return queryCache[word];
   try {
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
@@ -20522,14 +20528,17 @@ async function loadCardImage(word, meaning, wrapId, placeholderId, imgId) {
   const creditEl = document.getElementById(creditId);
 
   if (!cardImagesOn) {
-    // Hide the background wrap entirely
     wrap.style.visibility = 'hidden';
     wrap.style.opacity = '0';
+    wrap.style.display = 'none';
+    ph.style.display = 'none';
     img.classList.remove('loaded');
     img.src = '';
     frontEl && frontEl.classList.remove('has-image');
     return;
   }
+  // Images on — ensure wrap is visible
+  wrap.style.display = '';
 
   // Show wrap + spinner as background
   wrap.style.visibility = 'visible';
@@ -20608,9 +20617,18 @@ function initImgToggle() {
   } else {
     tog && tog.classList.add('off');
     if (srcBox) srcBox.style.display = 'none';
+    // Hide wraps AND placeholders so no spinner is visible
     ['card-img-wrap','card-img-wrap2','dcv-img-wrap'].forEach(id => {
       const el = document.getElementById(id);
-      if (el) { el.style.visibility = 'hidden'; el.style.opacity = '0'; }
+      if (el) {
+        el.style.visibility = 'hidden';
+        el.style.opacity = '0';
+        el.style.display = 'none';   // fully remove from layout
+      }
+    });
+    ['card-img-placeholder','card-img-placeholder2','dcv-img-placeholder'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
     });
   }
   syncImgSourceUI();
